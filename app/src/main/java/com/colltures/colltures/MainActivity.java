@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 /**
  * A simple launcher activity containing a summary sample description, sample log and a custom
@@ -15,11 +16,12 @@ import android.view.MenuItem;
  */
 public class MainActivity extends FragmentActivity {
 
-    public static final String TAG = "MainActivity";
+    //public static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {

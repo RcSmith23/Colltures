@@ -16,10 +16,14 @@
 
 package com.colltures.colltures;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +33,12 @@ public class SlidingTabsBasicFragment extends Fragment {
 
     private SlidingTabLayout mSlidingTabLayout;
     private ViewPager mViewPager;
+    // Hold image resources for slider tab
+    private int[] imageResId = {
+        R.drawable.ufeed,
+        R.drawable.people,
+        R.drawable.opencamera
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +59,7 @@ public class SlidingTabsBasicFragment extends Fragment {
         // Give the SlidingTabLayout the ViewPager, this must be done AFTER the ViewPager has had
         // it's PagerAdapter set.
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
+        mSlidingTabLayout.setCustomTabView(R.layout.custom_tab, 0);
         mSlidingTabLayout.setViewPager(mViewPager);
         // END_INCLUDE (setup_slidingtablayout)
     }
@@ -58,7 +69,7 @@ public class SlidingTabsBasicFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return 10;
+            return 3;
         }
 
         @Override
@@ -69,7 +80,12 @@ public class SlidingTabsBasicFragment extends Fragment {
         // BEGIN_INCLUDE (pageradapter_getpagetitle)
         @Override
         public CharSequence getPageTitle(int position) {
-            return "Item " + (position + 1);
+            Drawable image = getResources().getDrawable(imageResId[position]);
+            image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
+            SpannableString sb = new SpannableString(" ");
+            ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
+            sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return sb;
         }
         // END_INCLUDE (pageradapter_getpagetitle)
 
@@ -91,6 +107,5 @@ public class SlidingTabsBasicFragment extends Fragment {
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View) object);
         }
-
     }
 }
